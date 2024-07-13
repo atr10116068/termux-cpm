@@ -1,10 +1,4 @@
 import os
-import json
-import random
-import math
-import time
-import sys, requests
-import random as rdm
 from colr import color
 
 def disp(clrnama):
@@ -243,6 +237,8 @@ bannerwz = f"""
 
 print(pyColorate.Horizontal(pyColors.green_to_yellow, pyCenter.XCenter(tex)))
 print(bannerwz)
+
+Your_Data = {}
 if __name__ == "__main__":
     uname = input("  username : ")
     upass = input("  password : ")
