@@ -1,8 +1,8 @@
-import os,sys,httpx
+import os,sys,time
 from colr import color
 
 try:
-    import wget,httpx
+    import httpx
     from pystyle import Anime as pyAnime
     from pystyle import Colors as pyColors
     from pystyle import Colorate as pyColorate
@@ -10,7 +10,6 @@ try:
     from pystyle import System as pySystem
 except:
     os.system("pip install httpx")
-    os.system("pip install wget")
     os.system("pip install pystyle")
     from pystyle import Anime as pyAnime
     from pystyle import Colors as pyColors
@@ -43,6 +42,8 @@ def download_new_version(download_url, filename):
 
 def update_script():
     version_info = get_latest_version_info()
+    print(version_info)
+    time.sleep(5)
     if not version_info:
         return
     
