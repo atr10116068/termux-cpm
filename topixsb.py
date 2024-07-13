@@ -1,4 +1,4 @@
-import os
+import os,sys
 from colr import color
 
 def disp(clrnama):
@@ -112,8 +112,6 @@ def generate():
     print(f"kode\t:  {data['kodewarnaCPM']}")
     return data["kodewarnaCPM"]
 
-
-v="4.8"
 try:
     import wget,httpx
     from pystyle import Anime as pyAnime
@@ -180,14 +178,47 @@ print(pyColorate.Horizontal(pyColors.red_to_yellow, pyCenter.XCenter(text)))
 print("\n"*2)
 
 
-persi=httpx.get("https://raw.githubusercontent.com/atr10116068/termux-cpm/main/versi.txt").text
-newsc=httpx.get("https://raw.githubusercontent.com/atr10116068/termux-cpm/main/topixsb.py").text
-if v!=persi:
-    with open("topixsb.py", "w") as file1:
-        file1.write(newsc)
-    print(f"Updateing TopixSB Termux Tools {persi} Version")
-dat={"Vip":0}
+# Current version of the script
+CURRENT_VERSION = "1.0.0"
+VERSION_CHECK_URL = "https://raw.githubusercontent.com/atr10116068/termux-cpm/main/versi.txt"
 
+def get_latest_version_info():
+    try:
+        response = httpx.get(VERSION_CHECK_URL)
+        response.raise_for_status()
+        return response.json()
+    except httpx.RequestException as e:
+        print(f"Error checking for updates: {e}")
+        return None
+
+def download_new_version(download_url, filename):
+    try:
+        response = httpx.get(download_url)
+        response.raise_for_status()
+        with open(filename, 'wb') as file:
+            file.write(response.content)
+        print("Update downloaded successfully.")
+    except httpx.RequestException as e:
+        print(f"Error downloading new version: {e}")
+
+def update_script():
+    version_info = get_latest_version_info()
+    if not version_info:
+        return
+    
+    latest_version = version_info.get("version")
+    download_url = version_info.get("download_url")
+    
+    if latest_version and download_url:
+        if latest_version > CURRENT_VERSION:
+            print(f"New version available: {latest_version}")
+            print("Downloading update...")
+            download_new_version(download_url, sys.argv[0])
+            print("Script updated to the latest version. Please restart the script.")
+        else:
+            print("You already have the latest version.")
+    else:
+        print("Invalid version information received.")
 
 delet=["cpm/pos.py","cpm/__init__.py"]
 for psdd in delet:
@@ -232,7 +263,7 @@ karna 2 fitur itu tidak perlu logout
     
 bannerwz = f"""
 {c("cyan","=======================================================================")}
-    Topix SB CPM TOOLS {persi} {c("cyan","||")} {c("green","https://carparking.topixsb.dev/")}
+    Topix SB CPM TOOLS {CURRENT_VERSION} {c("cyan","||")} {c("green","https://carparking.topixsb.dev/")}
 {c("cyan","=======================================================================")}"""
 
 print(pyColorate.Horizontal(pyColors.green_to_yellow, pyCenter.XCenter(tex)))
