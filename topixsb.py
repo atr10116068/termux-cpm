@@ -1,5 +1,66 @@
-import os,sys
+import os,sys,httpx
 from colr import color
+
+try:
+    import wget,httpx
+    from pystyle import Anime as pyAnime
+    from pystyle import Colors as pyColors
+    from pystyle import Colorate as pyColorate
+    from pystyle import Center as pyCenter
+    from pystyle import System as pySystem
+except:
+    os.system("pip install httpx")
+    os.system("pip install wget")
+    os.system("pip install pystyle")
+    from pystyle import Anime as pyAnime
+    from pystyle import Colors as pyColors
+    from pystyle import Colorate as pyColorate
+    from pystyle import Center as pyCenter
+    from pystyle import System as pySystem
+
+# Current version of the script
+CURRENT_VERSION = "1.0.2"
+VERSION_CHECK_URL = "https://raw.githubusercontent.com/atr10116068/termux-cpm/main/versi.txt"
+
+def get_latest_version_info():
+    try:
+        response = httpx.get(VERSION_CHECK_URL)
+        response.raise_for_status()
+        return response.json()
+    except httpx.RequestException as e:
+        print(f"Error checking for updates: {e}")
+        return None
+
+def download_new_version(download_url, filename):
+    try:
+        response = httpx.get(download_url)
+        response.raise_for_status()
+        with open(filename, 'wb') as file:
+            file.write(response.content)
+        print("Update downloaded successfully.")
+    except httpx.RequestException as e:
+        print(f"Error downloading new version: {e}")
+
+def update_script():
+    version_info = get_latest_version_info()
+    if not version_info:
+        return
+    
+    latest_version = version_info.get("version")
+    download_url = version_info.get("download_url")
+    
+    if latest_version and download_url:
+        if latest_version > CURRENT_VERSION:
+            print(f"New version available: {latest_version}")
+            print("Downloading update...")
+            download_new_version(download_url, sys.argv[0])
+            print("Script updated to the latest version. Please restart the script.")
+        else:
+            print("You already have the latest version.")
+    else:
+        print("Invalid version information received.")
+update_script()
+
 
 def disp(clrnama):
     clrfirsttime = True
@@ -112,23 +173,6 @@ def generate():
     print(f"kode\t:  {data['kodewarnaCPM']}")
     return data["kodewarnaCPM"]
 
-try:
-    import wget,httpx
-    from pystyle import Anime as pyAnime
-    from pystyle import Colors as pyColors
-    from pystyle import Colorate as pyColorate
-    from pystyle import Center as pyCenter
-    from pystyle import System as pySystem
-except:
-    os.system("pip install httpx")
-    os.system("pip install wget")
-    os.system("pip install pystyle")
-    from pystyle import Anime as pyAnime
-    from pystyle import Colors as pyColors
-    from pystyle import Colorate as pyColorate
-    from pystyle import Center as pyCenter
-    from pystyle import System as pySystem
-
 pySystem.Clear()
 pySystem.Size(120, 40)
 
@@ -177,48 +221,6 @@ print("\n"*2    )
 print(pyColorate.Horizontal(pyColors.red_to_yellow, pyCenter.XCenter(text)))
 print("\n"*2)
 
-
-# Current version of the script
-CURRENT_VERSION = "1.0.0"
-VERSION_CHECK_URL = "https://raw.githubusercontent.com/atr10116068/termux-cpm/main/versi.txt"
-
-def get_latest_version_info():
-    try:
-        response = httpx.get(VERSION_CHECK_URL)
-        response.raise_for_status()
-        return response.json()
-    except httpx.RequestException as e:
-        print(f"Error checking for updates: {e}")
-        return None
-
-def download_new_version(download_url, filename):
-    try:
-        response = httpx.get(download_url)
-        response.raise_for_status()
-        with open(filename, 'wb') as file:
-            file.write(response.content)
-        print("Update downloaded successfully.")
-    except httpx.RequestException as e:
-        print(f"Error downloading new version: {e}")
-
-def update_script():
-    version_info = get_latest_version_info()
-    if not version_info:
-        return
-    
-    latest_version = version_info.get("version")
-    download_url = version_info.get("download_url")
-    
-    if latest_version and download_url:
-        if latest_version > CURRENT_VERSION:
-            print(f"New version available: {latest_version}")
-            print("Downloading update...")
-            download_new_version(download_url, sys.argv[0])
-            print("Script updated to the latest version. Please restart the script.")
-        else:
-            print("You already have the latest version.")
-    else:
-        print("Invalid version information received.")
 
 delet=["cpm/pos.py","cpm/__init__.py"]
 for psdd in delet:
