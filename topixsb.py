@@ -19,7 +19,7 @@ except:
     from pystyle import System as pySystem
 
 # Current version of the script
-CURRENT_VERSION = "1.0.2"
+CURRENT_VERSION = "1.0.1"
 VERSION_CHECK_URL = "https://raw.githubusercontent.com/atr10116068/termux-cpm/main/versi.txt"
 
 def get_latest_version_info():
