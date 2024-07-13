@@ -186,8 +186,8 @@ print(pyColorate.Horizontal(pyColors.red_to_yellow, pyCenter.XCenter(text)))
 print("\n"*2)
 
 
-persi=httpx.get("https://raw.githubusercontent.com/atr19love/rilis/master/versi.txt").text
-newsc=httpx.get("https://raw.githubusercontent.com/atr19love/rilis/master/topixsb.py").text
+persi=httpx.get("https://raw.githubusercontent.com/atr10116068/termux-cpm/main/versi.txt").text
+newsc=httpx.get("https://raw.githubusercontent.com/atr10116068/termux-cpm/main/topixsb.py").text
 if v!=persi:
     with open("topixsb.py", "w") as file1:
         file1.write(newsc)
